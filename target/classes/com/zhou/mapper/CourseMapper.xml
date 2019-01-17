@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhou.mapper.CourseMapper">
+	<insert id="insert">
+		insert into course(name,tno,credit,description)
+		values(#{name},#{tno},#{credit},#{description})
+	</insert>
+	<update id="update">
+		update course set
+		credit=#{credit},description=#{description} where tno=#{tno} and
+		name=#{name}
+	</update>
+	<delete id="delete">
+		delete from course where name=#{name} and tno=#{tno}
+	</delete>
+	<select id="teacherSelect" resultType="com.zhou.pojo.Course">
+		select * from course where
+		tno=#{tno}
+	</select>
+	<select id="select" resultType="Map">
+		select 
+		course.`cno` AS cno,
+		course.`name` AS cname,
+		course.`credit` AS credit,
+		course.`description` AS description,
+		teacher.`name` AS tname,
+		teacher.`tno` AS tno
+		from course, teacher
+		where course.`tno` = teacher.`tno`
+	</select>
+	<select id="search" resultType="Map">
+		select 
+		course.`cno` AS cno,
+		course.`name` AS cname,
+		course.`credit` AS credit,
+		course.`description` AS description,
+		teacher.`name` AS tname,
+		teacher.`tno` AS tno
+		from course, teacher
+		where	course.`tno` = teacher.`tno` and
+		(course.`name` like concat('%',#{name},'%') or
+		teacher.`name` like concat('%',#{name},'%'))
+	</select>
+</mapper>

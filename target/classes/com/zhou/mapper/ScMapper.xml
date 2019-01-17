@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhou.mapper.ScMapper">
+	<insert id="insert">
+		insert into sc(sno,cno,date)
+		values(#{sno},#{cno},#{date})
+	</insert>
+	<update id="update">
+		update sc set
+		grade=#{grade} where sno=#{sno} and
+		cno=#{cno}
+	</update>
+	<delete id="delete">
+		delete from sc where sno=#{sno} and cno=#{cno}
+	</delete>
+	<!-- 学生查看选课信息 -->
+	<select id="select" resultType="Map">
+		select
+		teacher.`name` AS tname,
+		course.`cno` AS cno,
+		course.`name` AS cname,
+		sc.`grade` AS grade,
+		sc.`date` AS date,
+		sc.`sno` AS `sno`
+		from course,sc,teacher
+		where course.`tno` = teacher.`tno`and sc.`cno` = course.`cno` and sc.`sno`=#{sno}
+	</select>
+	<!-- 老师查看学生选课信息 -->
+	<select id="teacherSelect" resultType="Map">
+		select
+		student.`sno` AS sno,
+		student.`name` AS sname,
+		course.`cno` AS cno,
+		course.`name` AS cname,
+		course.`tno` AS `tno`,
+		sc.`grade` AS grade,
+		sc.`date` AS date 
+		from sc,student,course
+		where sc.`sno` = student.`sno` and course.`cno`=sc.`cno` and course.`tno`=#{tno}
+		order by cno
+	</select>
+</mapper>

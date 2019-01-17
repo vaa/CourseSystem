@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhou.mapper.TeacherMapper">
+	<insert id="insert">
+		insert into teacher(tno,name,pwd)
+		values(#{tno},#{name},#{pwd})
+	</insert>
+	<update id="update">
+		update teacher set name=#{name},pwd=#{pwd} where
+		tno=#{tno}
+	</update>
+	<update id="updatepwd">
+		update teacher set pwd=#{pwd} where tno=#{tno}
+	</update>
+	<delete id="delete">
+		delete from teacher where tno=#{tno}
+	</delete>
+	<select id="select" resultType="com.zhou.pojo.Teacher">
+		select * from teacher
+	</select>
+	<select id="checkLogin" resultType="com.zhou.pojo.Teacher">
+		select * from teacher where
+		tno=#{tno} and pwd=#{pwd}
+	</select>
+</mapper>
